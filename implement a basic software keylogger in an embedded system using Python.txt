@@ -1,0 +1,14 @@
+import pyusb
+
+# Open the USB device (e.g., keyboard)
+dev = pyusb.find(idVendor=0x03f0, idProduct=0x0024)
+
+# Set up the device for keyboard input
+dev.set_configuration()
+
+while True:
+    # Read keyboard input
+    data = dev.read(0x81, 8, 1000)
+    if data:
+        # Store or send the keystroke
+        print(data)

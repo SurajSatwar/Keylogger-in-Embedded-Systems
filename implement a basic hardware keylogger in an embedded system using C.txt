@@ -1,0 +1,23 @@
+#include <avr/io.h>
+#include <avr/interrupt.h>
+
+#define KEYBOARD_PIN 2
+
+volatile char keystroke;
+
+ISR(KEYBOARD_PIN_vect) {
+    keystroke = PINB & (1 << KEYBOARD_PIN);
+    // Store the keystroke in a buffer or send it to a remote server
+}
+
+int main() {
+    DDRB &= ~(1 << KEYBOARD_PIN); // Set keyboard pin as input
+    PORTB |= (1 << KEYBOARD_PIN); // Enable pull-up resistor
+    GICR |= (1 << INT0); // Enable external interrupt 0
+    sei(); // Enable global interrupts
+
+    while (1) {
+        // Monitor and store keystrokes
+    }
+    return 0;
+}
